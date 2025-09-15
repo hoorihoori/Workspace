@@ -1,11 +1,11 @@
-name: 'Chromatic Deployment'
+name: 'Deploy Storybook to Chromatic'
 
 on:
   push:
     branches: [ main ]
 
 jobs:
-  chromatic:
+  deploy-storybook:  
     runs-on: ubuntu-latest
     
     steps:
@@ -18,17 +18,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-          cache: 'npm'
           
       - name: Install dependencies
-        run: |
-          npm ci
+        run: npm install
           
       - name: Build Storybook
-        run: |
-          npm run build-storybook
+        run: npm run build-storybook
           
-      - name: Publish to Chromatic
+      - name: Deploy to Chromatic
         uses: chromaui/action@v1
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}

@@ -1,25 +1,21 @@
-name: Storybook CI
+name: 'Chromatic 배포'
 
 on:
   push:
     branches: [ main ]
-  pull_request:
 
 jobs:
-  chromatic:
+  chromatic-deployment:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
+    
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
+      - name: 코드 다운로드
+        uses: actions/checkout@v4
         with:
-          node-version: 'lts/*'
-          cache: 'npm'
+          fetch-depth: 0
 
-      - run: npm ci
-
-      - name: Publish to Chromatic
-        run: npx chromatic --project-token=${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+      - name: Chromatic에 업로드
+        uses: chromaui/action@v1
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          buildScriptName: 'build-storybook'

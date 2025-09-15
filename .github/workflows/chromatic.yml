@@ -1,0 +1,21 @@
+name: 'Chromatic 배포'
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  chromatic-deployment:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 코드 다운로드
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Chromatic에 업로드
+        uses: chromaui/action@v1
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          buildScriptName: 'build-storybook'

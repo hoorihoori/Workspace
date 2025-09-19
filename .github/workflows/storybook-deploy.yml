@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -16,6 +16,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Setup Git
         run: |
@@ -35,6 +37,8 @@ jobs:
         run: npm run build-storybook
       
       - name: Deploy to GitHub Pages
-        run: npm run deploy-storybook
+        run: |
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+          npm run deploy-storybook
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

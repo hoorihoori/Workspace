@@ -1,32 +1,35 @@
-name: 'Deploy Storybook to Chromatic'
+name: Deploy Storybook to GitHub Pages
 
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
-  deploy-storybook:  
+  build-and-deploy:
     runs-on: ubuntu-latest
-    
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          
+      
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          
+          node-version: 'lts/*'
+          cache: 'npm'
+      
       - name: Install dependencies
-        run: npm install
-          
+        run: npm ci
+      
       - name: Build Storybook
         run: npm run build-storybook
-          
-      - name: Deploy to Chromatic
-        uses: chromaui/action@v1
-        with:
-          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          storybookBuildDir: storybook-static
+      
+      - name: Deploy to GitHub Pages
+        run: npm run deploy-storybook
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

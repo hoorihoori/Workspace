@@ -11,7 +11,7 @@ export default {
   layout: 'centered',
   design: {
     type: 'figma',
-    url: 'https://www.figma.com/design/10kkZMnYZtX6s7jsKyceE4/Uko-Dashboard-%EC%B5%9C%EC%9A%B0%EB%A6%AC-?node-id=5407-41506&t=WmFeHZE3rFsCilza-4'
+    url: 'url: 'https://www.figma.com/file/LKQ4FJ4bTnCSjedbRpk931/Sample-File?node-id=1%3A2'
   }
 },
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
